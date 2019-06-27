@@ -1,10 +1,14 @@
-library identifier: 'jenkins-shared-libs@stable', retriever: modernSCM(
-        [$class: 'GitSCMSource',
-         remote: 'git@github.com:nchauhan-ee/helloworld-service.git',
-         credentialsId: 'gitcreds']) _
+try {
 
-buildPushDeploy appName: 'helloworld-service',
-                gitProvider: 'github.com',
-                appRepo: 'nchauhan-ee',
-                isDependencies: false,
-                environment: 'dev'
+    stage('Checkout repo') {
+        git url: "git@github.com:nchauhan-ee/helloworld-service.git", branch: "master"
+    }
+
+    stage('Build image') {
+        sh "./build.sh"
+        echo "Build image & push now...."
+    }
+
+}catch (err) {
+    throw err
+}
