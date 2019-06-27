@@ -1,5 +1,5 @@
-node {
-    try {
+try {
+    node {
 
         stage('Checkout repo') {
             git url: "git@github.com:nchauhan-ee/helloworld-service.git", branch: "master"
@@ -10,7 +10,7 @@ node {
             echo "Build image & push now...."
         }
 
-    }catch (err) {
-        throw err
-    }
+    }   
+} catch (err) {
+    throw err
 }
