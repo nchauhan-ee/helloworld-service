@@ -1,22 +1,10 @@
-try {
-    node('master') {
-        try {
-            stage('Checkout repo') {
-                echo 'Check out repo...'
-                checkout scm
-                echo 'repo cloned'
-            }
+library identifier: 'hermes-libs@stable', retriever: modernSCM(
+        [$class: 'GitSCMSource',
+         remote: 'git@github.com:enchanting/hermes-libs.git',
+         credentialsId: 'gitcreds']) _
 
-            stage('Build image') {
-                echo 'running build.sh'
-                sh "./build.sh"
-                echo "Build image & push now...."
-            }
-        } catch (err) {
-            throw err
-        }
-
-    }   
-} catch (err) {
-    throw err
-}
+buildPushDeploy appName: 'helloworld-service',
+                gitProvider: 'github.com',
+                appRepo: 'nchauhan-ee',
+                isDependencies: false,
+                environment: 'dev'
